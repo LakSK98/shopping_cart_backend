@@ -5,11 +5,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { LoginUserDto } from './dto/login-user.dto';
 import { Response } from 'express';
-import { Res } from '@nestjs/common/decorators';
+import { Request, Res, UseGuards } from '@nestjs/common/decorators';
+import { AuthService } from 'src/auth/auth.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly authService: AuthService) {}
 
   @Post()
   @UsePipes(ValidationPipe)
@@ -26,7 +28,13 @@ export class UsersController {
     }else if(user.password != loginUserDto.password){
       return response.status(400).send({message :'Password Incorrect.'});
     }
-    return response.status(200).json(user);
+    return response.status(200).json(await this.authService.login(user));
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return await this.usersService.findOne(parseInt(req.user.userId));
   }
 
   @Get()

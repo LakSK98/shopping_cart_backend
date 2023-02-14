@@ -21,8 +21,10 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.userRepository.findOneBy({id});
+    const { password, ...result } = user;
+    return result;
   }
 
   async findByEmail(email: string) {
