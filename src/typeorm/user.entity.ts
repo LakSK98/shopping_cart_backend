@@ -12,7 +12,7 @@ export class User {
     nullable: false,
     default: '',
   })
-  username: string;
+  mobileNumber: string;
 
   @Column({
     name: 'email_address',

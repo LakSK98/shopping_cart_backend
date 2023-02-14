@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService  } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProductsModule } from './products/products.module';
 import entities from './typeorm';
 
 @Module({
@@ -21,7 +22,8 @@ import entities from './typeorm';
         synchronize: true,
       }),
       inject: [ConfigService]
-    })
+    }),
+    ProductsModule
   ],
   controllers: [],
   providers: [],

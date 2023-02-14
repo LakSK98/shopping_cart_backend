@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ValidationPipe } from '@nestjs/common/pipes';
+import { LoginUserDto } from './dto/login-user.dto';
+import { Response } from 'express';
+import { Res } from '@nestjs/common/decorators';
 
 @Controller('users')
 export class UsersController {
@@ -12,6 +15,18 @@ export class UsersController {
   @UsePipes(ValidationPipe)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Post('/login')
+  @UsePipes(ValidationPipe)
+  async login(@Res() response:Response, @Body() loginUserDto: LoginUserDto) {
+    const user = await this.usersService.findByEmail(loginUserDto.email);
+    if(user == null){
+      return response.status(404).json({message :'User not found.'});
+    }else if(user.password != loginUserDto.password){
+      return response.status(400).send({message :'Password Incorrect.'});
+    }
+    return response.status(200).json(user);
   }
 
   @Get()
