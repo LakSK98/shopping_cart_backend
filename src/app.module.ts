@@ -3,10 +3,8 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService  } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
-import { AuthModule } from './auth//auth.module';
 import entities from './typeorm';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
+import { OrderModule } from './orders/order.module';
 
 @Module({
   imports: [
@@ -26,7 +24,8 @@ import { JwtModule } from '@nestjs/jwt';
       }),
       inject: [ConfigService]
     }),
-    ProductsModule
+    ProductsModule,
+    OrderModule
   ],
   controllers: [],
   providers: [],
