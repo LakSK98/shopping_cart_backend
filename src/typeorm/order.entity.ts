@@ -22,14 +22,8 @@ export class Order {
     })
     discount: number;
 
-    @Column("int", {
-        array: true,
-        default: {},
-        name: "products"
-    })
-    products: number[]
-
     @CreateDateColumn({
+        type:"timestamptz",
         name: "date"
     })
     date: Date;

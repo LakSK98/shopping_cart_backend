@@ -17,7 +17,9 @@ export class ProductsService {
   }
 
   findAll() {
-    return this.productRepository.find();
+    return this.productRepository.find({order:{
+      id: "ASC"
+    }});
   }
 
   findOne(id: number) {
@@ -33,7 +35,7 @@ export class ProductsService {
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+    return this.productRepository.update({id: id },updateProductDto);
   }
 
   remove(id: number) {

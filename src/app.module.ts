@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import entities from './typeorm';
 import { OrderModule } from './orders/order.module';
+import { OrderItemModule } from './order-item/order-item.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { OrderModule } from './orders/order.module';
       inject: [ConfigService]
     }),
     ProductsModule,
-    OrderModule
+    OrderModule,
+    OrderItemModule
   ],
   controllers: [],
   providers: [],
